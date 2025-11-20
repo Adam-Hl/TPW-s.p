@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Carousel bez JS — scroll-snap + kotvy</title>
+    <style>
+        /* root is setting some vars for easy tweaks — putting the vibes on max */
+        :root{
+            --card-w: 280px;      /* width of one card */
+            --gap: 16px;
+            --track-pad: 24px;
+            --arrow-size: 44px;
+        }
+
+        html { scroll-behavior: smooth; } /* browser is doing the smooth scrolling — poggers */
+
+        body{
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            margin: 40px;
+            background: linear-gradient(180deg,#0f172a 0%, #071024 100%);
+            color: #e6eef8;
+        }
+
+        h1 { font-size: 1.25rem; margin-bottom: 12px; }
+
+        .carousel {
+            position: relative;
+            max-width: calc(var(--card-w) * 3 + var(--gap) * 2 + var(--track-pad) * 2);
+            margin: 0 auto;
+        }
+
+        /* viewport is the scrollable area — is creating the horizontal snapline */
+        .viewport{
+            overflow-x: auto;                /* is allowing horizontal scroll */
+            scroll-snap-type: x mandatory;   /* is snapping to each card */
+            -webkit-overflow-scrolling: touch;
+            padding: 12px var(--track-pad);
+            gap: var(--gap);
+        }
+        /* remove ugly scrollbar in many browsers (still accessible) */
+        .viewport::-webkit-scrollbar { height: 10px; }
+        .viewport::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 999px; }
+
+        .track{
+            display: flex;
+            gap: var(--gap);
+        }
+
+        .card{
+            flex: 0 0 var(--card-w);         /* is fixing width of each card */
+            scroll-snap-align: start;        /* is ensuring card snaps to left edge */
+            background: linear-gradient(180deg,#0b1220, #0e1a2b);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 6px 24px rgba(2,6,23,0.6);
+            position: relative;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            outline: 2px solid transparent;
+        }
+
+        .card:focus-within, .card:focus { outline-color: rgba(255,255,255,0.06); }
+
+        .title { font-weight: 700; margin-bottom: 6px; font-size: 1rem; }
+        .meta { font-size: .85rem; opacity: .75; margin-bottom: 12px; }
+        .body { font-size: .9rem; line-height: 1.3; opacity: .95; }
+
+        /* small arrow buttons inside each card; they are just anchors to other cards */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: var(--arrow-size);
+            height: var(--arrow-size);
+            border-radius: 999px;
+            display: inline-grid;
+            place-items: center;
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(4px);
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+            transition: transform .12s ease, background .12s;
+            z-index: 5;
+        }
+        .arrow:hover { transform: translateY(-50%) scale(1.06); background: rgba(255,255,255,0.07); }
+
+        /* we're putting one left and one right arrow per card, but visually you can hide them on edges if desired */
+        .arrow.left  { left: -22px; }
+        .arrow.right { right: -22px; }
+
+        /* responsive tweaks */
+        @media (max-width: 880px) {
+            :root { --card-w: 240px; }
+            .carousel { max-width: calc(var(--card-w) * 2 + var(--gap) + var(--track-pad) * 2); }
+        }
+        @media (max-width:520px){
+            :root { --card-w: 200px; --arrow-size:36px; }
+            .carousel { max-width: calc(100% - 24px); margin: 0 12px; }
+        }
+
+        /* tiny helper: center text when small */
+        .card .center { text-align: center; }
+    </style>
+</head>
+<body>
+<h1>Carousel bez JavaScriptu — scroll-snap + kotvy</h1>
+<p>Jde to! Každá karta má svoje ID a šipky jsou kotvy (linky) na sousední karty. Prohlížeč dělá smooth scroll. 👇</p>
+
+<div class="carousel" aria-label="Carousel s kartami">
+    <div class="viewport" role="list">
+        <div class="track">
+            <!-- Card 1 -->
+            <article class="card" id="card1" role="listitem" tabindex="0" aria-label="Karta 1: Hello">
+                <div>
+                    <div class="title">Card 1 — Hello</div>
+                    <div class="meta">Short meta • 2 min read</div>
+                    <p class="body">This card is chilling at the left end. Click ➡ to hop to the next card like you're warping between levels.</p>
+                </div>
+                <!-- left arrow goes to last (wrap), right arrow goes to card2 -->
+                <a class="arrow left" href="#card5" aria-label="Přejít na předchozí kartu">‹</a>
+                <a class="arrow right" href="#card2" aria-label="Přejít na další kartu">›</a>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="card" id="card2" role="listitem" tabindex="0" aria-label="Karta 2: Build">
+                <div>
+                    <div class="title">Card 2 — Build</div>
+                    <div class="meta">Design • Tips</div>
+                    <p class="body">This card is vibing in the middle. Clicking anchors is like using warp pads — pure HTML sorcery.</p>
+                </div>
+                <a class="arrow left" href="#card1" aria-label="Přejít na předchozí kartu">‹</a>
+                <a class="arrow right" href="#card3" aria-label="Přejít na další kartu">›</a>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="card" id="card3" role="listitem" tabindex="0" aria-label="Karta 3: Play">
+                <div>
+                    <div class="title">Card 3 — Play</div>
+                    <div class="meta">Fun • Memes</div>
+                    <p class="body">Middle of the track. Try keyboard navigation (tab) or click the arrows. No JS required, lol.</p>
+                </div>
+                <a class="arrow left" href="#card2" aria-label="Přejít na předchozí kartu">‹</a>
+                <a class="arrow right" href="#card4" aria-label="Přejít na další kartu">›</a>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="card" id="card4" role="listitem" tabindex="0" aria-label="Karta 4: Dev">
+                <div>
+                    <div class="title">Card 4 — Dev</div>
+                    <div class="meta">CSS • Tricks</div>
+                    <p class="body">This card is flexing with subtle shadows. Want indicators or autoplay? That bit usually needs JS — but there's CSS ways too.</p>
+                </div>
+                <a class="arrow left" href="#card3" aria-label="Přejít na předchozí kartu">‹</a>
+                <a class="arrow right" href="#card5" aria-label="Přejít na další kartu">›</a>
+            </article>
+
+            <!-- Card 5 -->
+            <article class="card" id="card5" role="listitem" tabindex="0" aria-label="Karta 5: The End">
+                <div>
+                    <div class="title">Card 5 — The End</div>
+                    <div class="meta">Outro</div>
+                    <p class="body">This is the rightmost card. Arrows are wrapping to card1 to create simple loop behaviour via anchors.</p>
+                </div>
+                <a class="arrow left" href="#card4" aria-label="Přejít na předchozí kartu">‹</a>
+                <a class="arrow right" href="#card1" aria-label="Přejít na další kartu">›</a>
+            </article>
+
+        </div> <!-- track -->
+    </div> <!-- viewport -->
+</div> <!-- carousel -->
+
+<p style="opacity:.8; margin-top:18px; font-size:.95rem;">Tip: můžeš přidat mini-indikátory (linky na #cardX) nebo udělat boční "jump to start/end" tlačítka — všechno bez JS. Když budeš chtít, napíšu ti i tu radio-verzi s jedinými globálními prev/next tlačítky.</p>
+</body>
+</html>

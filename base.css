@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap');
+@layer base{
+    :root {
+        /*  typographic scale*/
+        --font-size-3xl: 2.986rem;
+        --font-size-2xl: 2.488rem;
+        --font-size-xl: 2.074rem;
+        --font-size-lg: 1.728rem;
+        --font-size-md: 1.44rem;
+        --font-size-sm: 1.2rem;
+        --font-size-xs: 1rem;
+        --font-size-2xs: 0.875rem;
+        --font-size-3xs: 0.694rem;
+
+        --font-size-base: var(--font-size-xs);
+        --font-size-body: var(--font-size-base);
+
+        /* fonts */
+        --font-family-roboto: Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        --font-family-hand: "Delicious Handrawn", "Comic Sans MS", cursive;
+
+        /* font-weight */
+        --font-weight-light: 300;
+        --font-weight-regular: 400;
+        --font-weight-medium: 500;
+        --font-weight-bold: 800;
+
+        /*  spacing scale */
+        --space-0: 0;
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-5: 1.5rem;
+        --space-6: 2rem;
+        --space-7: 3rem;
+
+        /*  layout grid */
+        --grid-unit: 0.5rem;
+
+        /* radius scale */
+        --radius-sm: 15px;
+        --radius-md: 20px;
+        --radius-lg: 30px;
+
+        /* barevné schéma */
+
+        /* --- colors --- */
+        --color-primary: #f5f7fa;
+        --color-primary-light: #a8f0e1;
+
+        --color-secondary: #0093dd;
+        --color-secondary-light: #adcbec;
+        --color-secondary-dark: #3571b5;
+
+        --color-tertiary-light: #606266;
+        --color-tertiary-dark: #25272c;
+
+        --color-text-dark: #25272c;
+        --color-text-light: #f5f7fa;
+        --color-text-detail: #808286;
+
+        --color-bg: #2d2f36;
+
+        --vivid-green: #16e90c;
+        --vidid-blue: #1143b8;
+
+        /* sizing */
+        --size-width-vp: 100vw;
+        --size-height-vp: 100vh;
+    }
+    /* *************************************************************************** */
+
+    html {
+        font-family: var(--font-family-roboto);
+        color: var(--color-text-light);
+    }
+
+    body {
+        background: var(--color-bg);
+    }
+    h1 {
+        font-size: var(--font-size-3xl);
+        font-weight: var(--font-weight-bold);
+    }
+    h2 {
+        font-size: var(--font-size-2xl);
+    }
+    h3 {
+        font-size: var(--font-size-xl);
+    }
+    h4 {
+        font-size: var(--font-size-lg);
+    }
+    h5 {
+        font-size: var(--font-size-md);
+    }
+    h6 {
+        font-size: var(--font-size-sm);
+    }
+    p {
+        font-size: var(--font-size-body);
+    }
+}
